@@ -1,0 +1,4 @@
+.comment_form
+  = simple_form_for([@ticket, @ticket.comments.build]) do |f|
+    = f.input :body, label: false
+    = f.submit

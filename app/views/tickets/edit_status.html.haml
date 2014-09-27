@@ -1,0 +1,6 @@
+%div
+  Edit Ticket's Status
+  = simple_form_for @ticket do |f|
+    = f.input :status,:input_html => {:style => 'width: 200px'}
+    = f.input :department, include_blank: false,:input_html => {:style => 'width: 200px'}
+    = f.submit

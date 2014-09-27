@@ -1,0 +1,4 @@
+.comments
+  = comment.body
+  =	comment.created_at
+  = link_to 'Delete', ticket_comment_path(@ticket, comment),:class => 'btn btn-danger', method: :delete if comment.body
