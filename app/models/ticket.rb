@@ -8,5 +8,8 @@ class Ticket < ActiveRecord::Base
 
 	validates_presence_of :title
 
+	scope :by_status, ->(status) { where("status = ?", self.statuses[status]) }
+
   friendly_id :identifier
+
 end

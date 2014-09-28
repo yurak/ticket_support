@@ -9,7 +9,7 @@
   %strong= model_class.human_attribute_name(:status) + ':'
   %br
   - if user_signed_in?
-    %strong= link_to @ticket.status, edit_status_ticket_path, :rel => 'facebox'
+    %strong= link_to @ticket.status.humanize, edit_status_ticket_path, :rel => 'facebox', class: 'btn btn-link'
   - else
     %strong= @ticket.status.humanize
 %p
@@ -37,5 +37,5 @@
 .well
   Comments
   %p= render @ticket.comments
-
-  
+:javascript
+  $(document).on 'page:change', -> $.facebox.settings.inited = false

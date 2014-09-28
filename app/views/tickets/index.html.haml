@@ -1,27 +1,35 @@
-- model_class = Ticket
 .page-header
-  %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
-%table.table.table-striped
-  %thead
-    %tr
-      %th= model_class.human_attribute_name(:title)
-      %th= model_class.human_attribute_name(:status)
-      %th= model_class.human_attribute_name(:description)
-      %th= model_class.human_attribute_name(:department)
-      %th= model_class.human_attribute_name(:customer_name)
-      %th= model_class.human_attribute_name(:customer_email)
-      %th=t '.actions', :default => t("helpers.actions")
-  %tbody
-    - @tickets.each do |ticket|
-      %tr
-        %td= link_to ticket.title, ticket_path(ticket)
-        %td= ticket.status.humanize
-        %td= ticket.description
-        %td= ticket.department
-        %td= ticket.customer_name
-        %td= ticket.customer_email
-        %td
-          = link_to t('.edit', :default => t("helpers.links.edit")), edit_ticket_path(ticket), :class => 'btn btn-default btn-xs'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), ticket_path(ticket), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+  %h1 Tickets
 
 = link_to t('.new', :default => t("helpers.links.new")), new_ticket_path, :class => 'btn btn-primary'
+%ul#myTab.nav.nav-tabs{:role => "tablist"}
+  %li.active
+    %a{"data-toggle" => "tab", :href => "#all", :role => "tab"} All
+  %li
+    %a{"data-toggle" => "tab", :href => "#staff", :role => "tab"} Wait for staff
+  %li
+    %a{"data-toggle" => "tab", :href => "#customer", :role => "tab"} Wait for customer
+  %li
+    %a{"data-toggle" => "tab", :href => "#on_hold", :role => "tab"} On hold
+  %li
+    %a{"data-toggle" => "tab", :href => "#cancelled", :role => "tab"} Cancelled
+  %li
+    %a{"data-toggle" => "tab", :href => "#completed", :role => "tab"} Completed
+.tab-content
+  #all.tab-pane.active 
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets }
+  #staff.tab-pane 
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets.by_status(:wait_for_staff_response) }
+  #customer.tab-pane
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets.by_status(:wait_for_customer) }
+  #on_hold.tab-pane
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets.by_status(:on_hold) }
+  #cancelled.tab-pane
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets.by_status(:cancelled) }
+  #completed.tab-pane
+    = render :partial => "tickets/tickets", locals: { tickets: @tickets.by_status(:completed) }
+
+:javascript
+  $(function () {
+    $('#myTab a:last').tab('show')
+  })
