@@ -6,5 +6,7 @@ class Ticket < ActiveRecord::Base
  	enum department: [:development, :design, :configuration]	
 	has_many :comments
 
+	validates_presence_of :title
+
   friendly_id :identifier
 end

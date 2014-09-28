@@ -39,3 +39,7 @@ gem 'friendly_id'
 gem 'simple_form'
 gem 'facebox-rails'
 gem 'quiet_assets'
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'shoulda-matchers'
+end
