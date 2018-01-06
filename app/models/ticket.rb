@@ -3,13 +3,12 @@ class Ticket < ActiveRecord::Base
 	include Ticket::Identifier
 
 	enum status: [:wait_for_staff_response, :wait_for_customer, :on_hold, :cancelled, :completed]
- 	enum department: [:development, :design, :configuration]	
+ 	enum department: [:development, :design, :configuration]
 	has_many :comments
 
 	validates_presence_of :title
 
-	scope :by_status, ->(status) { where("status = ?", self.statuses[status]) }
+	scope :by_status, ->(status) { where("status = ?", statuses[status]) }
 
   friendly_id :identifier
-
 end
